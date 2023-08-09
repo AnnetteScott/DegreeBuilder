@@ -9,7 +9,12 @@ import router from '@/router'
 export default class Firebase {
 	// Initialize Firebase.
 	public static app = initializeApp({
-		
+		apiKey: "AIzaSyBaLD1GaazsOtwlRd41AbDGFbFs30dn0pA",
+		authDomain: "degreebuilder-bb72e.firebaseapp.com",
+		projectId: "degreebuilder-bb72e",
+		storageBucket: "degreebuilder-bb72e.appspot.com",
+		messagingSenderId: "919045284880",
+		appId: "1:919045284880:web:c3ecdf12397d470ed79695"
 	});
 	// Initialize Firebase Authentication
 	public static auth = getAuth(this.app);
