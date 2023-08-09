@@ -227,6 +227,67 @@ button.disabled,
     pointer-events: none;
 }
 
+.forms_container{
+    position: fixed;
+	top: 0;
+    right: 0;
+    width: var(--screen-size);
+    height: 100%;
+    z-index: 60;
+    display: flex;
+    overflow: auto;
+    backdrop-filter: brightness(0.4);
+}
+
+form {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	gap: 20px;
+	max-width: min(430px, 95%);
+	margin: auto;
+	padding: 45px;
+	background-color: white;
+	border-radius: var(--border-radius-large);
+	box-shadow: 0px 10px 50px -15px #1248;
+}
+fieldset {
+	all: unset;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 30px;
+	width: 100%;
+	border: unset;
+}
+label {
+	color: var(--color-primary);
+}
+input {
+	all: unset;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 2px 7px;
+	color: var(--color-text);
+	font-size: 1rem;
+	border-bottom: 1px solid grey;
+}
+input:focus,
+input:focus-within {
+	border-color: var(--color-primary);
+}
+label > input + button {
+	position: absolute;
+	right: 5px;
+	bottom: 0px;
+	padding: 2px 5px;
+	border: unset;
+}
+
+form > button{
+    width: 100%;
+    box-sizing: border-box;
+}
+
 
 @media (prefers-color-scheme: dark) {
 }

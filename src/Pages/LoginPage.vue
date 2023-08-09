@@ -20,7 +20,7 @@ export default defineComponent({
                 if(this.$route.query.redirect){
                     this.$router.push(this.$route.query.redirect as string);
                 }else{
-                    this.$router.push({name: 'DashBoard'});
+                    this.$router.push({name: 'Home'});
                 }
             }
 		});

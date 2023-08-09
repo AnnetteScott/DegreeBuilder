@@ -5,6 +5,7 @@ import { getAuth, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/au
 import type { Unsubscribe, User } from 'firebase/auth';
 import { getFirestore, onSnapshot, doc, setDoc } from 'firebase/firestore';
 import router from '@/router'
+import { UserInfo } from '@/types';
 
 export default class Firebase {
 	// Initialize Firebase.
@@ -23,7 +24,7 @@ export default class Firebase {
 	public static db = getFirestore(this.app);
 	
 	public static user = ref(null) as Ref<User | null>;
-	public static dataBase = reactive({});
+	public static dataBase: UserInfo = reactive(new UserInfo());
 	public static isLoading = ref(true) as Ref<boolean>;
 	
 	static fireStorePath = '';
@@ -31,9 +32,9 @@ export default class Firebase {
 	// Listen to the auth state
 	private static authUnsubscribe = onAuthStateChanged(this.auth, async (user) => {
 		this.user.value = user;
-		
 		if(this.user.value){
-			this.fireStorePath = `Users/${this.user.value.uid}/`
+			this.fireStorePath = `${this.user.value.uid}/Degree`;
+			this.getUserData();
 		}else{
 			this.fireStoreUnsubscribe?.();
 			this.fireStoreUnsubscribe = undefined
@@ -71,7 +72,7 @@ export default class Firebase {
 		const data = JSON.parse(JSON.stringify(fireStore))
 
 		await setDoc(doc(this.db, this.fireStorePath), {
-			data
+			...data
 		})
 	}
 
@@ -88,8 +89,8 @@ export default class Firebase {
 		
 		this.fireStoreUnsubscribe = onSnapshot(doc(this.db, this.fireStorePath), async (doc) => {
 			const data = doc.data();
-			if(data === undefined){
-				this.updateDataBase({})
+			if(data === undefined || Object.keys(data).length <= 0){
+				this.updateDataBase(new UserInfo())
 			}else{
 				Object.assign(this.dataBase, data)
 				console.log(this.dataBase)
