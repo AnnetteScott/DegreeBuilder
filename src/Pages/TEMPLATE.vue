@@ -4,30 +4,30 @@ import Firebase from '@/firebase'
 
 export default defineComponent({
 	name: 'DashBoard',
-    data() {
+	data() {
 		return {
 			Firebase,
 		};
 	},
-    mounted() {
-        if(Object.keys(Firebase.dataBase).length > 0){
-            // Code here
-        }
-        watch(Firebase.dataBase, async () => {
-            
-        })
-    },
-    methods: {
-        
-    },
-    
+	mounted() {
+		if(Object.keys(Firebase.dataBase).length > 0){
+			// Code here
+		}
+		watch(Firebase.dataBase, async () => {
+
+		})
+	},
+	methods: {
+
+	},
+
 })
 
 </script>
 
 <template>
-    <main>
-		
+	<main>
+
 	</main>
 </template>
 

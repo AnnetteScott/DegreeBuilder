@@ -1,16 +1,24 @@
 export class UserInfo {
 	courses = {} as {[name: string]: Course};
+	startYear = 2022;
+	degreeLength = 4;
 }
 
 export class Course {
 	streams = [] as Stream[];
+	prerequisites = [] as string[];
+	completed = false;
+	year = 2023;
+	sem = "S1" as "S1" | "S2";
 }
 
 export class Stream {
-	year = 2023;
-	sem = "" as "S1" | "S2";
+	classes = [] as ClassItem[]
 	streamNum = "";
-	startHour = 1;
-	endHour = 2;
+}
+
+export class ClassItem {
+	startHour = 8;
+	endHour = 9;
 	day = 0;
 }
