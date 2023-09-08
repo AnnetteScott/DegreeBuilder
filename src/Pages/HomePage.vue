@@ -133,35 +133,14 @@ export default defineComponent({
 				</label>
 				<label for="Prerequisites">
 					Prerequisites
-					<select name="Prerequisites" multiple v-model="prereq" style="height: 200px;">
-						<option value="None">None</option>
-						<option v-for="key of Object.keys(Firebase.dataBase.courses).sort()"
-						:key="key" :value="key">{{ key }}</option>
-					</select>
-				</label>
-				<button type="submit">Create</button>
-				<button @click.prevent="form = ''">Cancel</button>
-			</fieldset>
-		</form>
-	</div>
-	<div class="forms_container" v-if="form === 'addMultiCourse'">
-		<form @submit.prevent="addMultiCourse()">
-			<fieldset>
-				<h2>Add Multi Course</h2>
-				<label for="Course Code">
-					Course Code (Seperate with ,)
-					<input type="text" v-model="code" required>
-				</label>
-				<label for="Year">
-					Year
-					<input type="number" v-model="year" min="2000" max="2099" step="1" required>
-				</label>
-				<label for="Semester">
-					Semester
-					<select name="Semester" v-model="sem">
-						<option value="S1">S1</option>
-						<option value="S2">S2</option>
-					</select>
+					<span style="display: flex;flex-wrap: wrap;gap: 10px;">
+						<template v-for="key of Object.keys(Firebase.dataBase.courses).sort()">
+							<label style="color: black;">
+								<input type="checkbox" :value="key" v-model="prereq">
+								{{ key }}
+							</label>
+						</template>
+					</span>
 				</label>
 				<button type="submit">Create</button>
 				<button @click.prevent="form = ''">Cancel</button>
@@ -175,6 +154,10 @@ export default defineComponent({
 				<label for="Course Code">
 					Course Code
 					<input type="text" v-model="code" required>
+				</label>
+				<label for="Course Code">
+					Course Title
+					<input type="text" v-model="Firebase.dataBase.courses[code].title" required>
 				</label>
 				<label for="Completed">
 					Completed
@@ -193,11 +176,9 @@ export default defineComponent({
 				</label>
 				<label for="Prerequisites">
 					Prerequisites
-					<select name="Prerequisites" multiple v-model="Firebase.dataBase.courses[code].prerequisites" style="height: 200px;">
-						<option value="None">None</option>
-						<option v-for="key of Object.keys(Firebase.dataBase.courses).sort()"
-						:key="key" :value="key">{{ key }}</option>
-					</select>
+					<template v-for="key of Object.keys(Firebase.dataBase.courses).sort()">
+						<input type="checkbox" :value="key" v-model="Firebase.dataBase.courses[code].prerequisites">
+					</template>
 				</label>
 				<button @click.prevent="form = 'editStream'">Edit Streams</button>
 				<button type="submit">Save</button>
