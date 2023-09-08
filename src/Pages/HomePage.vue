@@ -66,6 +66,7 @@ export default defineComponent({
 				course.prerequisites = this.prereq;
 			}
 			course.sem = this.sem;
+			course.title = this.title;
 			course.year = this.year;
 			Firebase.dataBase.courses[this.code] = course;
 			Firebase.updateDataBase();
