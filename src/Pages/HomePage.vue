@@ -127,6 +127,7 @@ export default defineComponent({
 						<option value="S1">S1</option>
 						<option value="S2">S2</option>
 					</select>
+				</label>
 				<label for="Course Code">
 					Course Title
 					<input type="text" v-model="title" required>
