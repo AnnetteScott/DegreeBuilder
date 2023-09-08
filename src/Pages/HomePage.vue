@@ -74,22 +74,6 @@ export default defineComponent({
 			this.code = '';
 			this.prereq = []
 		},
-		addMultiCourse(){
-			this.form = '';
-
-			const codes = this.code.split(",");
-			for(const code of codes){
-				if(code.trim().length === 7){
-					const course = new Course();
-					course.year = this.year;
-					course.sem = this.sem;
-					Firebase.dataBase.courses[code.trim()] = course;
-				}
-			}
-			Firebase.updateDataBase();
-			this.code = '';
-			this.prereq = []
-		},
 		editCourse(){
 			this.form = '';
 			Firebase.updateDataBase();
@@ -105,7 +89,6 @@ export default defineComponent({
 	<main>
 		<nav>
 			<button @click="form = 'addCourse'">Add Course</button>
-			<button @click="form = 'addMultiCourse'">Add Multi Course</button>
 		</nav>
 		<section>
 			<div v-for="[year, info] of Object.entries(classes)">
@@ -114,9 +97,14 @@ export default defineComponent({
 				<div v-for="[sem, courses] of Object.entries(info)">
 					<h2>{{ sem }}</h2>
 					<div v-for="[code, course] of Object.entries(courses)">
-						<h3>{{ code }}</h3>
+						<CourseInfo :completed="true" :course="course" :code="code" @click="" />
 					</div>
 				</div>
+			</div>
+		</section>
+		<section>
+			<div v-for="[code, course] of Object.entries(otherClasses)">
+				<CourseInfo :completed="true" :course="course" :code="code" @click=""/>
 			</div>
 		</section>
 	</main>
