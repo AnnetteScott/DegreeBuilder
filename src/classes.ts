@@ -9,7 +9,7 @@ export class Course {
 	prerequisites = [] as string[];
 	completed = false;
 	year = 0;
-	sem = "" as "S1" | "S2";
+	sem = "" as "S1" | "S2" | "";
 	title = ""
 }
 

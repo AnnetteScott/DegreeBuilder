@@ -23,8 +23,8 @@ export default defineComponent({
 			form: '',
 			code: '',
 			title: '',
-			sem: '' as "S1" | "S2",
-			year: 0,
+			sem: '' as "S1" | "S2" | "",
+			year: 2022,
 			stream: -1,
 			prereq: [],
 			classes: {} as ClassType,
@@ -49,15 +49,12 @@ export default defineComponent({
 			}
 
 			for(const [code, course] of Object.entries(Firebase.dataBase.courses)){
-				if(course.year != 0){
+				if(course.sem != ''){
 					this.classes[course.year][course.sem][code] = course;
 				} else {
 					this.otherClasses[code] = course;
 				}
 			}
-
-			console.log(this.classes)
-			console.log(this.otherClasses)
 		},
 		addCourse(){
 			this.form = '';
@@ -72,12 +69,19 @@ export default defineComponent({
 			Firebase.updateDataBase();
 
 			this.code = '';
+			this.title = '';
+			this.sem = '';
+			this.year = Firebase.dataBase.startYear;
 			this.prereq = []
 		},
 		editCourse(){
 			this.form = '';
 			Firebase.updateDataBase();
 			this.code = '';
+			this.title = '';
+			this.sem = '';
+			this.year = Firebase.dataBase.startYear;
+			this.prereq = []
 		}
 	},
 
@@ -91,20 +95,24 @@ export default defineComponent({
 			<button @click="form = 'addCourse'">Add Course</button>
 		</nav>
 		<section>
-			<div v-for="[year, info] of Object.entries(classes)">
+			<div v-for="[year, info] of Object.entries(classes)" class="year_section">
 				<h1>{{ year }}</h1>
 				<button>View TimeTables</button>
 				<div v-for="[sem, courses] of Object.entries(info)">
 					<h2>{{ sem }}</h2>
-					<div v-for="[code, course] of Object.entries(courses)">
-						<CourseInfo :completed="true" :course="course" :code="code" @click="" />
+					<div v-for="[codeName, course] of Object.entries(courses)">
+						<CourseInfo :completed="true" :course="course" :code="codeName" 
+							@click="form = 'editCourse', code = codeName"
+						/>
 					</div>
 				</div>
 			</div>
 		</section>
 		<section>
-			<div v-for="[code, course] of Object.entries(otherClasses)">
-				<CourseInfo :completed="true" :course="course" :code="code" @click=""/>
+			<div v-for="[codeName, course] of Object.entries(otherClasses)">
+				<CourseInfo :completed="true" :course="course" :code="codeName" 
+					@click="form = 'editCourse', code = codeName"
+				/>
 			</div>
 		</section>
 	</main>
@@ -117,9 +125,13 @@ export default defineComponent({
 					Course Code
 					<input type="text" v-model="code" required>
 				</label>
+				<label for="Course Code">
+					Course Title
+					<input type="text" v-model="title" required>
+				</label>
 				<label for="Year">
 					Year
-					<input type="number" v-model="year" min="2000" max="2099" step="1" required>
+					<input type="number" v-model="year" min="2000" max="2099" step="1">
 				</label>
 				<label for="Semester">
 					Semester
@@ -128,10 +140,7 @@ export default defineComponent({
 						<option value="S2">S2</option>
 					</select>
 				</label>
-				<label for="Course Code">
-					Course Title
-					<input type="text" v-model="title" required>
-				</label>
+				
 				<label for="Prerequisites">
 					Prerequisites
 					<span style="display: flex;flex-wrap: wrap;gap: 10px;">
@@ -177,9 +186,14 @@ export default defineComponent({
 				</label>
 				<label for="Prerequisites">
 					Prerequisites
-					<template v-for="key of Object.keys(Firebase.dataBase.courses).sort()">
-						<input type="checkbox" :value="key" v-model="Firebase.dataBase.courses[code].prerequisites">
-					</template>
+					<span style="display: flex;flex-wrap: wrap;gap: 10px;">
+						<template v-for="key of Object.keys(Firebase.dataBase.courses).sort()">
+							<label style="color: black;">
+								<input type="checkbox" :value="key" v-model="prereq">
+								{{ key }}
+							</label>
+						</template>
+					</span>
 				</label>
 				<button @click.prevent="form = 'editStream'">Edit Streams</button>
 				<button type="submit">Save</button>
@@ -235,6 +249,13 @@ input[type='checkbox']{
 
 section {
 	display: flex;
-	justify-content: space-around;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.year_section{
+	min-height: 500px;
+	min-width: 450px;
 }
 </style>

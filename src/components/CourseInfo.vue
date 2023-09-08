@@ -40,6 +40,7 @@ h1 {
 .course_item {
 	border-radius: 10px;
 	padding: 5px 10px;
+	cursor: pointer;
 }
 
 .course_item > p {
