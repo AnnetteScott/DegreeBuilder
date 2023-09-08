@@ -1,7 +1,8 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import Firebase from '@/firebase'
-import { Course, Stream, ClassItem } from '@/types';
+import { Course, Stream, ClassItem } from '@/classes';
+import CourseInfo from '@/components/CourseInfo.vue'
 
 type Sem = "S1" | "S2"
 
@@ -13,6 +14,7 @@ interface ClassType {
 
 export default defineComponent({
 	name: 'HomePage',
+	components: { CourseInfo },
 	data() {
 		return {
 			Firebase,

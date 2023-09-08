@@ -5,7 +5,7 @@ import { getAuth, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/au
 import type { Unsubscribe, User } from 'firebase/auth';
 import { getFirestore, onSnapshot, doc, setDoc } from 'firebase/firestore';
 import router from '@/router'
-import { UserInfo } from '@/types';
+import { UserInfo } from '@/classes';
 
 export default class Firebase {
 	// Initialize Firebase.

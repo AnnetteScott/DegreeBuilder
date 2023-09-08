@@ -8,8 +8,9 @@ export class Course {
 	streams = [] as Stream[];
 	prerequisites = [] as string[];
 	completed = false;
-	year = 2023;
-	sem = "S1" as "S1" | "S2";
+	year = 0;
+	sem = "" as "S1" | "S2";
+	title = ""
 }
 
 export class Stream {
