@@ -22,11 +22,13 @@ export default defineComponent({
 			ClassItem,
 			form: '',
 			code: '',
-			sem: 'S1' as "S1" | "S2",
-			year: 2023,
-			prereq: [],
+			title: '',
+			sem: '' as "S1" | "S2",
+			year: 0,
 			stream: -1,
-			classes: {} as ClassType
+			prereq: [],
+			classes: {} as ClassType,
+			otherClasses: {} as {[key: string]: Course}
 		};
 	},
 	mounted() {
@@ -40,16 +42,22 @@ export default defineComponent({
 	methods: {
 		load(){
 			this.classes = {};
+			this.otherClasses = {};
 			const startYear = Firebase.dataBase.startYear
 			for(let i = startYear; i < startYear + Firebase.dataBase.degreeLength; i++){
 				this.classes[i] = {'S1': {}, 'S2': {}};
 			}
 
 			for(const [code, course] of Object.entries(Firebase.dataBase.courses)){
-				this.classes[course.year][course.sem][code] = course;
+				if(course.year != 0){
+					this.classes[course.year][course.sem][code] = course;
+				} else {
+					this.otherClasses[code] = course;
+				}
 			}
 
 			console.log(this.classes)
+			console.log(this.otherClasses)
 		},
 		addCourse(){
 			this.form = '';
